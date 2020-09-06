@@ -21,7 +21,7 @@ export default createGlobalStyle`
     }
 
     :root {
-        --color-background: #F0F0F7;
+        --color-background: #000000;
         --color-primary-lighter: #9871F5;
         --color-primary-light: #916BEA;
         --color-primary: #8257E5;

@@ -9,15 +9,18 @@ const base_url = "https://image.tmdb.org/t/p/original/";
 interface Row {
   title: string;
   fetchUrl: string;
+  isLargeRow?: boolean;
+  className?: string;
 }
 
 interface Movie {
   id: number;
   name: string;
   poster_path: string;
+  backdrop_path: string;
 }
 
-const Row: React.FC<Row> = ({ title, fetchUrl }) => {
+const Row: React.FC<Row> = ({ title, fetchUrl, isLargeRow, className }) => {
   const [movies, setMovies] = useState([]);
 
   useEffect(() => {
@@ -39,7 +42,10 @@ const Row: React.FC<Row> = ({ title, fetchUrl }) => {
           {movies.map((movie: Movie) => (
             <CardImage
               key={movie.id}
-              src={`${base_url}${movie.poster_path}`}
+              className={className}
+              src={`${base_url}${
+                isLargeRow ? movie.poster_path : movie.backdrop_path
+              }`}
               alt={movie.name}
             />
           ))}

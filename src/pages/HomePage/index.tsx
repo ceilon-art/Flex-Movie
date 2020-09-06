@@ -2,16 +2,20 @@ import React from "react";
 
 import { Container } from "./styles";
 
-import Row from "../../components/Row/Row";
+import Row from "../../components/Row";
+import Banner from "../../components/Banner";
 
 import requests from "../../services/requests";
 
 const HomePage: React.FC = () => {
   return (
     <Container>
+      <Banner />
       <Row
         title="ORIGINAIS NETFLIX"
         fetchUrl={requests.fetchNetflixOriginals}
+        className="Originals"
+        isLargeRow={true}
       />
       <Row title="Mais Buscados" fetchUrl={requests.fetchTrending} />
       <Row title="Mais Vistos" fetchUrl={requests.fetchTopRated} />
