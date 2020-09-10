@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import YouTube from "react-youtube";
 
 import api from "../../services/axios";
 
@@ -20,6 +21,11 @@ interface Movie {
   backdrop_path: string;
 }
 
+// interface Youtube {
+//   trailerUrl: string;
+//   opts: string;
+// }
+
 const Row: React.FC<Row> = ({ title, fetchUrl, isLargeRow, className }) => {
   const [movies, setMovies] = useState([]);
 
@@ -33,6 +39,15 @@ const Row: React.FC<Row> = ({ title, fetchUrl, isLargeRow, className }) => {
 
     fetchData();
   }, [fetchUrl]);
+
+  const opts = {
+    height: "390",
+    width: "100%",
+    playerVars: {
+      // https://developers.google.com/youtube/player_parameters,
+      autoplay: 1,
+    },
+  };
 
   return (
     <Container>
@@ -50,6 +65,7 @@ const Row: React.FC<Row> = ({ title, fetchUrl, isLargeRow, className }) => {
             />
           ))}
         </Card>
+        {/* <YouTube videoId={trailerUrl} opts={opts} /> */}
       </Posters>
     </Container>
   );

@@ -29,7 +29,7 @@ export const CardImage = styled.img`
   object-fit: contain;
   width: 100%;
   height: 15rem;
-  margin-right: 1.8rem;
+  margin-right: 0.8rem;
   transition: transform 450ms;
   cursor: pointer;
 
