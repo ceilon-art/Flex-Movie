@@ -22,7 +22,7 @@ export const Card = styled.div`
   padding: 2rem;
 
   overflow-y: hidden;
-  overflow-x: scroll;
+  overflow-x: auto;
 `;
 
 export const CardImage = styled.img`

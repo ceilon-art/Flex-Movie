@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import YouTube from "react-youtube";
+// @ts-ignore
+import movieTrailer from "movie-trailer";
 
 import api from "../../services/axios";
 
@@ -21,13 +23,9 @@ interface Movie {
   backdrop_path: string;
 }
 
-// interface Youtube {
-//   trailerUrl: string;
-//   opts: string;
-// }
-
 const Row: React.FC<Row> = ({ title, fetchUrl, isLargeRow, className }) => {
   const [movies, setMovies] = useState([]);
+  const [trailerUrl, setTrailerUrl] = useState<string | null>();
 
   useEffect(() => {
     async function fetchData() {
@@ -40,13 +38,33 @@ const Row: React.FC<Row> = ({ title, fetchUrl, isLargeRow, className }) => {
     fetchData();
   }, [fetchUrl]);
 
-  const opts = {
+  type Options = {
+    height: string;
+    width: string;
+    playerVars: {
+      autoplay: 1;
+    };
+  };
+
+  const opts: Options = {
     height: "390",
     width: "100%",
     playerVars: {
-      // https://developers.google.com/youtube/player_parameters,
       autoplay: 1,
     },
+  };
+
+  const handleClick = (movie: Movie) => {
+    if (trailerUrl) {
+      setTrailerUrl("");
+    } else {
+      movieTrailer(movie?.name || "")
+        .then((url: string) => {
+          const urlParams = new URLSearchParams(new URL(url).search);
+          setTrailerUrl(urlParams.get("v"));
+        })
+        .catch((error: Error) => console.log(error));
+    }
   };
 
   return (
@@ -57,6 +75,7 @@ const Row: React.FC<Row> = ({ title, fetchUrl, isLargeRow, className }) => {
           {movies.map((movie: Movie) => (
             <CardImage
               key={movie.id}
+              onClick={() => handleClick(movie)}
               className={className}
               src={`${base_url}${
                 isLargeRow ? movie.poster_path : movie.backdrop_path
@@ -65,7 +84,7 @@ const Row: React.FC<Row> = ({ title, fetchUrl, isLargeRow, className }) => {
             />
           ))}
         </Card>
-        {/* <YouTube videoId={trailerUrl} opts={opts} /> */}
+        {trailerUrl && <YouTube videoId={trailerUrl} opts={opts} />}
       </Posters>
     </Container>
   );
